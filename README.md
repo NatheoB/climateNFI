@@ -28,6 +28,7 @@ A file with following columns
 - data_climatic_year.csv (OPTIONAL) (file with raw and derived variables for the given year)
 
 # How to run ?
+library(targets)
 - tar_make() ==> run the script with one thread
 - tar_make_clustermq(workers = N) ==> run the script with N threads in parallel 
 
