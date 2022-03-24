@@ -15,7 +15,7 @@ Compute_SGDD_monthly_weightedsum <- function(tas_months, year, sgdd_threshold = 
 } 
 
 
-Compute_Derived_Variables_year <- function(chelsa_year, save_files = FALSE) {
+Compute_Derived_Variables_year <- function(chelsa_year, save_files) {
   ### Compute monthly variables :  wai, wa and veget_period
   
     # Get month as character (e.g. 01 for January)

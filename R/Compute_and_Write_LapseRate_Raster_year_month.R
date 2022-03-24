@@ -1,12 +1,13 @@
-Compute_and_Write_LapseRate_Ratser_year_month <- function(year, month, crop_ext, 
-                                                window_size, path = "data") {
+Compute_and_Write_LapseRate_Raster_year_month <- function(year, month, crop_ext, window_size,
+                                                          folderpath_tas, filepath_alt,
+                                                          folderpath_try_lr) {
     
   rast_lr_filename <- paste0("lr_", month, "_", year, ".tif")
 
-  # Do not compute the raster if it exists in the output folder and it contains the crop extent
-  if (rast_lr_filename %in% list.files("output")) {
+  # Do not compute the raster if it exists in the try_lr folder and it contains the crop extent
+  if (rast_lr_filename %in% list.files(folderpath_try_lr)) {
       # Load the lapse rate raster
-    rast_lr <- terra::rast(file.path("output", rast_lr_filename))
+    rast_lr <- terra::rast(file.path(folderpath_try_lr, rast_lr_filename))
       
       # Do not recompute if the crop extent is contained or equals within the output raster
     rast_lr_ext <- terra::ext(rast_lr)
@@ -15,19 +16,19 @@ Compute_and_Write_LapseRate_Ratser_year_month <- function(year, month, crop_ext,
         crop_ext[3] >= rast_lr_ext[3] | # Y : Crop min >= output min
         crop_ext[4] <= rast_lr_ext[4])  # Y : Crop max <= output max
     {
-      return(list(year = year, month = month, path = file.path("output", rast_lr_filename)))
+      return(list(year = year, month = month, path = file.path(folderpath_try_lr, rast_lr_filename)))
     }
   }
   
-  # Else, compute and save the lapserate raster
+  # Else, compute and save the lapserate raster in output folder
 
     # Load the climate raster
   rast_tas_filename <- paste("CHELSA_tas", month, year, "V.2.1.tif", sep="_")
-  if (!rast_tas_filename %in% list.files(path)) {stop("tas raster not in folder")}
-  rast_tas <- terra::rast(file.path(path, rast_tas_filename))
+  if (!rast_tas_filename %in% list.files(folderpath_tas)) {stop("tas raster not in folder")}
+  rast_tas <- terra::rast(file.path(folderpath_tas, rast_tas_filename))
   
     # Load the altitude raster
-  rast_altitude <- terra::rast("data/wc/wc2.1_30s_elev.tif")
+  rast_altitude <- terra::rast(filepath_alt)
   
     # Crop rasters
   rast_altitude <- terra::crop(rast_altitude, crop_ext)
@@ -44,9 +45,10 @@ Compute_and_Write_LapseRate_Ratser_year_month <- function(year, month, crop_ext,
   names(lapse_reg) <- paste("lr", month, year, sep="_")
   
     # Write lapse_rate raster
-  terra::writeRaster(lapse_reg, file.path("output", rast_lr_filename), overwrite = TRUE)
+  output_path <- file.path("output", rast_lr_filename)
+  terra::writeRaster(lapse_reg, output_path, overwrite = TRUE)
   
-  return(list(year = year, month = month, path = file.path("output", rast_lr_filename)))
+  return(list(year = year, month = month, path = file.path(output_path, rast_lr_filename)))
 }
 
 

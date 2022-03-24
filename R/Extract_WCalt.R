@@ -1,7 +1,7 @@
-Extract_WCalt <- function(coords, path) {
+Extract_WCalt <- function(coords, filepath_alt) {
   
     # Get worldclim elevation raster
-  rast <- terra::rast(path)
+  rast <- terra::rast(filepath_alt)
   
     # Extract values from rasters at coordinates in coords dataframe
   res <- terra::extract(rast, coords[, c("longitude", "latitude")])

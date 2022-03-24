@@ -1,4 +1,4 @@
-Bind_ChelsaLrAlt_years <- function(chelsa_years, data_lr_years, data_alt, year) {
+Bind_ChelsaLrAlt_years <- function(chelsa_years, data_lr_years, data_alt_wc, data_alt_exact, year) {
     # Get the chelsa df for the corresponding year
   chelsa_year <- chelsa_years[sapply(chelsa_years, function(X) X$year==year)]
   chelsa_year <- chelsa_year[[1]]$data
@@ -10,7 +10,8 @@ Bind_ChelsaLrAlt_years <- function(chelsa_years, data_lr_years, data_alt, year) 
     # Bind the three datasets
   chelsa_lr_alt_year <- chelsa_year %>% 
     inner_join(data_lr_year, by = "plotcode") %>% 
-    inner_join(data_alt, by = "plotcode")
+    inner_join(data_alt_wc, by = "plotcode") %>% 
+    inner_join(data_alt_exact, by = "plotcode")
   
   return(list(year = year, data = chelsa_lr_alt_year))
 }
