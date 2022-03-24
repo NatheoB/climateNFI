@@ -2,9 +2,9 @@
 # climateNFI
 A R targets project to compute climatic variables of National Forest inventories' plot
 
-# What it does ?
+# What it does ? (outputs of each step can be save in output folder with save_files argument)
   - Extract chelsa data for given coords
-  - Regress chelsa tas rasters vs worldclim altitude and compute tas_correct (using the computed lapse rate) (RASTER IS NOT RECOMPUTED IF THERE IS ALREADY AN EXISTANT LR RASTER IN THE OUTPUT FILE THAT CAN CONTAINS THE RANGE OF THE DATA_PLOTS COORDINATES)
+  - Regress chelsa tas rasters vs worldclim altitude and compute tas_correct (using the computed lapse rate) (RASTER IS NOT RECOMPUTED IF THERE IS ALREADY AN EXISTANT LR RASTER IN THE \emph{folderpath_try_lr} FOLDER THAT CAN CONTAINS THE RANGE OF THE DATA_PLOTS COORDINATES)
   - Rescale variables
   - Create derived monthly and yearly variables (SGDD, water availability wa, water availability index wai, vegetative month)
   - Create final climatic dataset with mean of climatic variables over increment period of each plot
